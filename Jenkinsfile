@@ -2,20 +2,22 @@ node{
 
     stage('SCM Checkout')
     {
-        git credentialsId: '4cc785e9-441d-4818-a248-2bfb2148004d', url: 'https://github.com/VardhanNS/phpmysql-app.git'
+        git credentialsId: 'sanatabas', url: 'https://github.com/sanatabas/phpmysql-app.git'
     }
     
     stage('Run Docker Compose File')
     {
-        sh 'docker-compose build'
-        sh 'docker-compose up -d'
+    
+        sh 'sudo docker-compose build'
+        sh 'sudo docker-compose up -d'
     }
+    
     stage('PUSH image to Docker Hub')
     {
-        withCredentials([string(credentialsId: 'DockerHubPassword', variable: 'DHPWD')]) 
+        withCredentials([string(credentialsId: 'dockerhub_id1', variable: 'dockerhub_id1')]) 
         {
-            sh "docker login -u vardhanns -p ${DHPWD}"
+            sh "sudo docker login -u sanataba -p ${dockerhub_id1}"
         }
-        sh 'docker push vardhanns/phpmysql_app'
+        sh 'sudo docker push sanataba/phpmysql-app_web'
     }
 }
